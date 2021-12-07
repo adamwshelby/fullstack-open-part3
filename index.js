@@ -23,11 +23,6 @@ persons = [
     id: 4,
     name: "Mary Poppendieck", 
     number: "39-23-6423122"
-  },
-  {
-    id: 5,
-    name:" adada",
-    number: "2093444"
   }
 ]
 
@@ -64,9 +59,21 @@ const generateId = () => {
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  if (!body.content) {
+  if (!body.name) {
     return response.status(400).json({
-      error: 'content missing'
+      error: 'name missing'
+    })
+  }
+
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'number missing'
+    })
+  }
+
+  if (persons.find(p => p.name === body.name)) {
+    return response.status(400).json({
+      error: 'name must be unique'
     })
   }
 
